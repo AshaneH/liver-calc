@@ -41,7 +41,7 @@ class InputForm extends ConsumerWidget {
           builder: (context, constraints) {
             final width = constraints.maxWidth;
             // Simple responsive logic: 2 columns on wide screens, 1 on narrow
-            int crossAxisCount = width > 600 ? 3 : 2;
+            // int crossAxisCount = width > 600 ? 3 : 2;
             // Actually, standard list might be better for mobile form feel?
             // Let's use Wrap or GridView.
 

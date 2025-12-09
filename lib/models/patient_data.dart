@@ -13,7 +13,7 @@ enum AscitesSeverity { none, slight, moderate }
 enum EncephalopathyGrade { none, grade1_2, grade3_4 }
 
 @freezed
-class PatientData with _$PatientData {
+abstract class PatientData with _$PatientData {
   const factory PatientData({
     @Default(Units.si) Units units,
     double? bilirubin,

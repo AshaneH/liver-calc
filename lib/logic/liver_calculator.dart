@@ -91,51 +91,51 @@ class LiverCalculator {
 
     // Bilirubin
     double bili = _getBilirubinMg(data);
-    if (bili < 2)
+    if (bili < 2) {
       score += 1;
-    else if (bili <= 3)
+    } else if (bili <= 3)
       score += 2;
     else
       score += 3;
 
     // Albumin
     double alb = _getAlbuminGdl(data);
-    if (alb > 3.5)
+    if (alb > 3.5) {
       score += 1;
-    else if (alb >= 2.8)
+    } else if (alb >= 2.8)
       score += 2;
     else
       score += 3;
 
     // INR
     double inr = data.inr!;
-    if (inr < 1.7)
+    if (inr < 1.7) {
       score += 1;
-    else if (inr <= 2.3)
+    } else if (inr <= 2.3)
       score += 2;
     else
       score += 3;
 
     // Ascites
-    if (data.ascites == AscitesSeverity.none)
+    if (data.ascites == AscitesSeverity.none) {
       score += 1;
-    else if (data.ascites == AscitesSeverity.slight)
+    } else if (data.ascites == AscitesSeverity.slight)
       score += 2;
     else
       score += 3;
 
     // Encephalopathy
-    if (data.encephalopathy == EncephalopathyGrade.none)
+    if (data.encephalopathy == EncephalopathyGrade.none) {
       score += 1;
-    else if (data.encephalopathy == EncephalopathyGrade.grade1_2)
+    } else if (data.encephalopathy == EncephalopathyGrade.grade1_2)
       score += 2;
     else
       score += 3;
 
     String grade;
-    if (score <= 6)
+    if (score <= 6) {
       grade = 'A';
-    else if (score <= 9)
+    } else if (score <= 9)
       grade = 'B';
     else
       grade = 'C';
@@ -162,14 +162,14 @@ class LiverCalculator {
 
     // Formula: (log10(bilirubin µmol/L) × 0.66) + (albumin g/L × -0.085)
     // Dart's log is ln. log10(x) = log(x) / ln(10)
-    double log10Bili = log(biliUmol) / ln(10);
+    double log10Bili = log(biliUmol) / log(10);
 
     double score = (log10Bili * 0.66) + (albGl * -0.085);
 
     String grade;
-    if (score <= -2.60)
+    if (score <= -2.60) {
       grade = '1';
-    else if (score <= -1.39)
+    } else if (score <= -1.39)
       grade = '2';
     else
       grade = '3';
