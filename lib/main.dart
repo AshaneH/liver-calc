@@ -24,7 +24,6 @@ class LiverCalcApp extends StatelessWidget {
           secondary: AppColors.teal,
           tertiary: AppColors.tealLight,
           surface: Colors.grey[50],
-          background: Colors.white,
         ),
         textTheme: GoogleFonts.interTextTheme(),
         cardTheme: CardThemeData(

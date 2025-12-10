@@ -63,8 +63,9 @@ class InputForm extends ConsumerWidget {
             builder: (context, constraints) {
               final width = constraints.maxWidth;
 
-              if (width <= 0 || width.isInfinite)
+              if (width <= 0 || width.isInfinite) {
                 return const SizedBox.shrink();
+              }
 
               int cols = (width / 160).floor();
               if (cols < 2) cols = 2;

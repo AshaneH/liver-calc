@@ -83,51 +83,57 @@ class LiverCalculator {
     // Bilirubin logic
     if (bili < 2) {
       score += 1;
-    } else if (bili <= 3)
+    } else if (bili <= 3) {
       score += 2;
-    else
+    } else {
       score += 3;
+    }
 
     // Albumin
     if (alb > 3.5) {
       score += 1;
-    } else if (alb >= 2.8)
+    } else if (alb >= 2.8) {
       score += 2;
-    else
+    } else {
       score += 3;
+    }
 
     // INR
     double inr = data.inr!;
     if (inr < 1.7) {
       score += 1;
-    } else if (inr <= 2.3)
+    } else if (inr <= 2.3) {
       score += 2;
-    else
+    } else {
       score += 3;
+    }
 
     // Ascites
     if (data.ascites == AscitesSeverity.none) {
       score += 1;
-    } else if (data.ascites == AscitesSeverity.slight)
+    } else if (data.ascites == AscitesSeverity.slight) {
       score += 2;
-    else
+    } else {
       score += 3;
+    }
 
     // Encephalopathy
     if (data.encephalopathy == EncephalopathyGrade.none) {
       score += 1;
-    } else if (data.encephalopathy == EncephalopathyGrade.grade1_2)
+    } else if (data.encephalopathy == EncephalopathyGrade.grade1_2) {
       score += 2;
-    else
+    } else {
       score += 3;
+    }
 
     String grade;
     if (score <= 6) {
       grade = 'A';
-    } else if (score <= 9)
+    } else if (score <= 9) {
       grade = 'B';
-    else
+    } else {
       grade = 'C';
+    }
 
     return {'score': score, 'grade': grade};
   }
@@ -157,10 +163,11 @@ class LiverCalculator {
     String grade;
     if (score <= -2.60) {
       grade = '1';
-    } else if (score <= -1.39)
+    } else if (score <= -1.39) {
       grade = '2';
-    else
+    } else {
       grade = '3';
+    }
 
     return {'score': double.parse(score.toStringAsFixed(2)), 'grade': grade};
   }
