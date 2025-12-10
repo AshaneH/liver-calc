@@ -2,49 +2,36 @@ import 'dart:math';
 import 'package:liver_calc/models/patient_data.dart';
 
 class LiverCalculator {
-  // Conversion factors
-  static const double bilirubinMgToUmol = 17.1;
-  static const double creatinineMgToUmol = 88.4;
-  static const double albuminGToDl = 10.0; // g/dL to g/L is *10? Wait.
-  // Albumin US: g/dL. SI: g/L. Factor is 10. 3.5 g/dL = 35 g/L.
+  // Helpers now assume SI input (because that is what is stored)
+  // But some formulas might need mg/dL (MELD).
 
-  // Helper to get Bilirubin in mg/dL
   static double _getBilirubinMg(PatientData data) {
-    if (data.bilirubin == null) return 0.0;
-    if (data.units == Units.us) return data.bilirubin!;
-    return data.bilirubin! / bilirubinMgToUmol;
+    if (data.bilirubinSi == null) return 0.0;
+    return data.bilirubinSi! / 17.1;
   }
 
-  // Helper to get Bilirubin in µmol/L (for ALBI)
   static double _getBilirubinUmol(PatientData data) {
-    if (data.bilirubin == null) return 0.0;
-    if (data.units == Units.si) return data.bilirubin!;
-    return data.bilirubin! * bilirubinMgToUmol;
+    return data.bilirubinSi ?? 0.0;
   }
 
-  // Helper to get Creatinine in mg/dL
   static double _getCreatinineMg(PatientData data) {
-    if (data.creatinine == null) return 0.0;
-    if (data.units == Units.us) return data.creatinine!;
-    return data.creatinine! / creatinineMgToUmol;
+    if (data.creatinineSi == null) return 0.0;
+    return data.creatinineSi! / 88.4;
   }
 
-  // Helper to get Albumin in g/dL
   static double _getAlbuminGdl(PatientData data) {
-    if (data.albumin == null) return 0.0;
-    if (data.units == Units.us) return data.albumin!;
-    return data.albumin! / 10.0; // g/L -> g/dL
+    if (data.albuminGl == null) return 0.0;
+    return data.albuminGl! / 10.0;
   }
 
-  // Helper to get Albumin in g/L (for ALBI)
   static double _getAlbuminGl(PatientData data) {
-    if (data.albumin == null) return 0.0;
-    if (data.units == Units.si) return data.albumin!;
-    return data.albumin! * 10.0; // g/dL -> g/L
+    return data.albuminGl ?? 0.0;
   }
 
   static double? calculateMeld(PatientData data) {
-    if (data.bilirubin == null || data.inr == null || data.creatinine == null) {
+    if (data.bilirubinSi == null ||
+        data.inr == null ||
+        data.creatinineSi == null) {
       return null;
     }
 
@@ -59,9 +46,6 @@ class LiverCalculator {
 
     // Cap creatinine at 4.0 mg/dL for MELD
     if (creat > 4.0) creat = 4.0;
-    // Wait, usually if dialysed, it is set to 4.0. We don't have dialysis input.
-    // Standard MELD calc just clamps <1.0. For >4.0 it's usually just used as is unless dialysis.
-    // I'll stick to basic clamping.
 
     final score = 3.78 * log(bili) + 11.2 * log(inr) + 9.57 * log(creat) + 6.43;
     return double.parse(score.toStringAsFixed(1));
@@ -83,7 +67,9 @@ class LiverCalculator {
   }
 
   static Map<String, dynamic>? calculateChildPugh(PatientData data) {
-    if (data.bilirubin == null || data.albumin == null || data.inr == null) {
+    if (data.bilirubinSi == null ||
+        data.albuminGl == null ||
+        data.inr == null) {
       return null;
     }
 
@@ -91,6 +77,10 @@ class LiverCalculator {
 
     // Bilirubin
     double bili = _getBilirubinMg(data);
+    double alb = _getAlbuminGdl(data);
+    // ... logic same ...
+
+    // Bilirubin logic
     if (bili < 2) {
       score += 1;
     } else if (bili <= 3)
@@ -99,7 +89,6 @@ class LiverCalculator {
       score += 3;
 
     // Albumin
-    double alb = _getAlbuminGdl(data);
     if (alb > 3.5) {
       score += 1;
     } else if (alb >= 2.8)
@@ -144,18 +133,17 @@ class LiverCalculator {
   }
 
   static double? calculateMaddreyDf(PatientData data) {
-    if (data.pt == null || data.bilirubin == null) return null;
+    if (data.pt == null || data.bilirubinSi == null) return null;
 
     double bili = _getBilirubinMg(data);
-    double ptControl = data.ptControl; // Default 12 used if not changed
+    double ptControl = data.ptControl;
 
-    // Formula: 4.6 * (PT - Control) + Bilirubin
     double val = 4.6 * (data.pt! - ptControl) + bili;
     return double.parse(val.toStringAsFixed(1));
   }
 
   static Map<String, dynamic>? calculateAlbi(PatientData data) {
-    if (data.bilirubin == null || data.albumin == null) return null;
+    if (data.bilirubinSi == null || data.albuminGl == null) return null;
 
     double biliUmol = _getBilirubinUmol(data);
     double albGl = _getAlbuminGl(data);

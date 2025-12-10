@@ -10,45 +10,16 @@ class PatientDataNotifier extends Notifier<PatientData> {
 
   void updateUnits(Units newUnits) {
     if (state.units == newUnits) return;
-
-    // Convert values
-    double? newBilirubin = state.bilirubin;
-    double? newCreatinine = state.creatinine;
-    double? newAlbumin = state.albumin;
-
-    if (state.units == Units.us && newUnits == Units.si) {
-      // US -> SI
-      if (newBilirubin != null) newBilirubin *= 17.1;
-      if (newCreatinine != null) newCreatinine *= 88.4;
-      if (newAlbumin != null) newAlbumin *= 10.0; // g/dL -> g/L
-    } else if (state.units == Units.si && newUnits == Units.us) {
-      // SI -> US
-      if (newBilirubin != null) newBilirubin /= 17.1;
-      if (newCreatinine != null) newCreatinine /= 88.4;
-      if (newAlbumin != null) newAlbumin /= 10.0;
-    }
-
-    // Round to reasonable decimals to avoid 1.1999999999
-    if (newBilirubin != null) {
-      newBilirubin = double.parse(newBilirubin.toStringAsFixed(1));
-    }
-    if (newCreatinine != null) {
-      newCreatinine = double.parse(newCreatinine.toStringAsFixed(1));
-    }
-    if (newAlbumin != null) {
-      newAlbumin = double.parse(newAlbumin.toStringAsFixed(1));
-    }
-
-    state = state.copyWith(
-      units: newUnits,
-      bilirubin: newBilirubin,
-      creatinine: newCreatinine,
-      albumin: newAlbumin,
-    );
+    // Just update the view unit. The data remains canonical (SI).
+    state = state.copyWith(units: newUnits);
   }
 
   void updateBilirubin(String value) {
-    state = state.copyWith(bilirubin: double.tryParse(value));
+    double? val = double.tryParse(value);
+    if (val != null && state.units == Units.us) {
+      val = val * 17.1; // Mg/dL -> µmol/L
+    }
+    state = state.copyWith(bilirubinSi: val);
   }
 
   void updateInr(String value) {
@@ -67,7 +38,11 @@ class PatientDataNotifier extends Notifier<PatientData> {
   }
 
   void updateCreatinine(String value) {
-    state = state.copyWith(creatinine: double.tryParse(value));
+    double? val = double.tryParse(value);
+    if (val != null && state.units == Units.us) {
+      val = val * 88.4; // Mg/dL -> µmol/L
+    }
+    state = state.copyWith(creatinineSi: val);
   }
 
   void updateSodium(String value) {
@@ -75,7 +50,13 @@ class PatientDataNotifier extends Notifier<PatientData> {
   }
 
   void updateAlbumin(String value) {
-    state = state.copyWith(albumin: double.tryParse(value));
+    double? val = double.tryParse(value);
+    if (val != null && state.units == Units.si) {
+      // Input is g/L (SI). Store as g/L. No change.
+    } else if (val != null && state.units == Units.us) {
+      val = val * 10.0; // g/dL -> g/L
+    }
+    state = state.copyWith(albuminGl: val);
   }
 
   void updateAscites(AscitesSeverity severity) {

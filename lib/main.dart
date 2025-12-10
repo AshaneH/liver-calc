@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:liver_calc/screens/main_screen.dart';
+import 'package:liver_calc/theme/app_colors.dart';
 
 void main() {
   runApp(const ProviderScope(child: LiverCalcApp()));
@@ -18,10 +19,10 @@ class LiverCalcApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF152549), // Navy Blue (Background of SVG)
-          primary: const Color(0xFF152549), // Header Color
-          secondary: const Color(0xFF008080), // Teal (Accent/Labs)
-          tertiary: const Color(0xFF4DB6AC),
+          seedColor: AppColors.navy,
+          primary: AppColors.navy,
+          secondary: AppColors.teal,
+          tertiary: AppColors.tealLight,
           surface: Colors.grey[50],
           background: Colors.white,
         ),

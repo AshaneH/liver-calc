@@ -8,13 +8,13 @@ part of 'patient_data.dart';
 
 _PatientData _$PatientDataFromJson(Map<String, dynamic> json) => _PatientData(
   units: $enumDecodeNullable(_$UnitsEnumMap, json['units']) ?? Units.si,
-  bilirubin: (json['bilirubin'] as num?)?.toDouble(),
+  bilirubinSi: (json['bilirubinSi'] as num?)?.toDouble(),
   inr: (json['inr'] as num?)?.toDouble(),
   pt: (json['pt'] as num?)?.toDouble(),
   ptControl: (json['ptControl'] as num?)?.toDouble() ?? 12.0,
-  creatinine: (json['creatinine'] as num?)?.toDouble(),
+  creatinineSi: (json['creatinineSi'] as num?)?.toDouble(),
   sodium: (json['sodium'] as num?)?.toInt(),
-  albumin: (json['albumin'] as num?)?.toDouble(),
+  albuminGl: (json['albuminGl'] as num?)?.toDouble(),
   ascites:
       $enumDecodeNullable(_$AscitesSeverityEnumMap, json['ascites']) ??
       AscitesSeverity.none,
@@ -29,13 +29,13 @@ _PatientData _$PatientDataFromJson(Map<String, dynamic> json) => _PatientData(
 Map<String, dynamic> _$PatientDataToJson(_PatientData instance) =>
     <String, dynamic>{
       'units': _$UnitsEnumMap[instance.units]!,
-      'bilirubin': instance.bilirubin,
+      'bilirubinSi': instance.bilirubinSi,
       'inr': instance.inr,
       'pt': instance.pt,
       'ptControl': instance.ptControl,
-      'creatinine': instance.creatinine,
+      'creatinineSi': instance.creatinineSi,
       'sodium': instance.sodium,
-      'albumin': instance.albumin,
+      'albuminGl': instance.albuminGl,
       'ascites': _$AscitesSeverityEnumMap[instance.ascites]!,
       'encephalopathy': _$EncephalopathyGradeEnumMap[instance.encephalopathy]!,
     };

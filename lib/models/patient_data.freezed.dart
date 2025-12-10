@@ -15,9 +15,11 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$PatientData {
 
- Units get units; double? get bilirubin; double? get inr; double? get pt;// Prothrombin Time (Patient)
- double get ptControl;// Prothrombin Time (Control)
- double? get creatinine; int? get sodium; double? get albumin; AscitesSeverity get ascites; EncephalopathyGrade get encephalopathy;
+ Units get units; double? get bilirubinSi;// Stored in µmol/L
+ double? get inr; double? get pt;// Seconds
+ double get ptControl; double? get creatinineSi;// Stored in µmol/L
+ int? get sodium; double? get albuminGl;// Stored in g/L
+ AscitesSeverity get ascites; EncephalopathyGrade get encephalopathy;
 /// Create a copy of PatientData
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -30,16 +32,16 @@ $PatientDataCopyWith<PatientData> get copyWith => _$PatientDataCopyWithImpl<Pati
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PatientData&&(identical(other.units, units) || other.units == units)&&(identical(other.bilirubin, bilirubin) || other.bilirubin == bilirubin)&&(identical(other.inr, inr) || other.inr == inr)&&(identical(other.pt, pt) || other.pt == pt)&&(identical(other.ptControl, ptControl) || other.ptControl == ptControl)&&(identical(other.creatinine, creatinine) || other.creatinine == creatinine)&&(identical(other.sodium, sodium) || other.sodium == sodium)&&(identical(other.albumin, albumin) || other.albumin == albumin)&&(identical(other.ascites, ascites) || other.ascites == ascites)&&(identical(other.encephalopathy, encephalopathy) || other.encephalopathy == encephalopathy));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PatientData&&(identical(other.units, units) || other.units == units)&&(identical(other.bilirubinSi, bilirubinSi) || other.bilirubinSi == bilirubinSi)&&(identical(other.inr, inr) || other.inr == inr)&&(identical(other.pt, pt) || other.pt == pt)&&(identical(other.ptControl, ptControl) || other.ptControl == ptControl)&&(identical(other.creatinineSi, creatinineSi) || other.creatinineSi == creatinineSi)&&(identical(other.sodium, sodium) || other.sodium == sodium)&&(identical(other.albuminGl, albuminGl) || other.albuminGl == albuminGl)&&(identical(other.ascites, ascites) || other.ascites == ascites)&&(identical(other.encephalopathy, encephalopathy) || other.encephalopathy == encephalopathy));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,units,bilirubin,inr,pt,ptControl,creatinine,sodium,albumin,ascites,encephalopathy);
+int get hashCode => Object.hash(runtimeType,units,bilirubinSi,inr,pt,ptControl,creatinineSi,sodium,albuminGl,ascites,encephalopathy);
 
 @override
 String toString() {
-  return 'PatientData(units: $units, bilirubin: $bilirubin, inr: $inr, pt: $pt, ptControl: $ptControl, creatinine: $creatinine, sodium: $sodium, albumin: $albumin, ascites: $ascites, encephalopathy: $encephalopathy)';
+  return 'PatientData(units: $units, bilirubinSi: $bilirubinSi, inr: $inr, pt: $pt, ptControl: $ptControl, creatinineSi: $creatinineSi, sodium: $sodium, albuminGl: $albuminGl, ascites: $ascites, encephalopathy: $encephalopathy)';
 }
 
 
@@ -50,7 +52,7 @@ abstract mixin class $PatientDataCopyWith<$Res>  {
   factory $PatientDataCopyWith(PatientData value, $Res Function(PatientData) _then) = _$PatientDataCopyWithImpl;
 @useResult
 $Res call({
- Units units, double? bilirubin, double? inr, double? pt, double ptControl, double? creatinine, int? sodium, double? albumin, AscitesSeverity ascites, EncephalopathyGrade encephalopathy
+ Units units, double? bilirubinSi, double? inr, double? pt, double ptControl, double? creatinineSi, int? sodium, double? albuminGl, AscitesSeverity ascites, EncephalopathyGrade encephalopathy
 });
 
 
@@ -67,16 +69,16 @@ class _$PatientDataCopyWithImpl<$Res>
 
 /// Create a copy of PatientData
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? units = null,Object? bilirubin = freezed,Object? inr = freezed,Object? pt = freezed,Object? ptControl = null,Object? creatinine = freezed,Object? sodium = freezed,Object? albumin = freezed,Object? ascites = null,Object? encephalopathy = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? units = null,Object? bilirubinSi = freezed,Object? inr = freezed,Object? pt = freezed,Object? ptControl = null,Object? creatinineSi = freezed,Object? sodium = freezed,Object? albuminGl = freezed,Object? ascites = null,Object? encephalopathy = null,}) {
   return _then(_self.copyWith(
 units: null == units ? _self.units : units // ignore: cast_nullable_to_non_nullable
-as Units,bilirubin: freezed == bilirubin ? _self.bilirubin : bilirubin // ignore: cast_nullable_to_non_nullable
+as Units,bilirubinSi: freezed == bilirubinSi ? _self.bilirubinSi : bilirubinSi // ignore: cast_nullable_to_non_nullable
 as double?,inr: freezed == inr ? _self.inr : inr // ignore: cast_nullable_to_non_nullable
 as double?,pt: freezed == pt ? _self.pt : pt // ignore: cast_nullable_to_non_nullable
 as double?,ptControl: null == ptControl ? _self.ptControl : ptControl // ignore: cast_nullable_to_non_nullable
-as double,creatinine: freezed == creatinine ? _self.creatinine : creatinine // ignore: cast_nullable_to_non_nullable
+as double,creatinineSi: freezed == creatinineSi ? _self.creatinineSi : creatinineSi // ignore: cast_nullable_to_non_nullable
 as double?,sodium: freezed == sodium ? _self.sodium : sodium // ignore: cast_nullable_to_non_nullable
-as int?,albumin: freezed == albumin ? _self.albumin : albumin // ignore: cast_nullable_to_non_nullable
+as int?,albuminGl: freezed == albuminGl ? _self.albuminGl : albuminGl // ignore: cast_nullable_to_non_nullable
 as double?,ascites: null == ascites ? _self.ascites : ascites // ignore: cast_nullable_to_non_nullable
 as AscitesSeverity,encephalopathy: null == encephalopathy ? _self.encephalopathy : encephalopathy // ignore: cast_nullable_to_non_nullable
 as EncephalopathyGrade,
@@ -164,10 +166,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Units units,  double? bilirubin,  double? inr,  double? pt,  double ptControl,  double? creatinine,  int? sodium,  double? albumin,  AscitesSeverity ascites,  EncephalopathyGrade encephalopathy)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Units units,  double? bilirubinSi,  double? inr,  double? pt,  double ptControl,  double? creatinineSi,  int? sodium,  double? albuminGl,  AscitesSeverity ascites,  EncephalopathyGrade encephalopathy)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _PatientData() when $default != null:
-return $default(_that.units,_that.bilirubin,_that.inr,_that.pt,_that.ptControl,_that.creatinine,_that.sodium,_that.albumin,_that.ascites,_that.encephalopathy);case _:
+return $default(_that.units,_that.bilirubinSi,_that.inr,_that.pt,_that.ptControl,_that.creatinineSi,_that.sodium,_that.albuminGl,_that.ascites,_that.encephalopathy);case _:
   return orElse();
 
 }
@@ -185,10 +187,10 @@ return $default(_that.units,_that.bilirubin,_that.inr,_that.pt,_that.ptControl,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Units units,  double? bilirubin,  double? inr,  double? pt,  double ptControl,  double? creatinine,  int? sodium,  double? albumin,  AscitesSeverity ascites,  EncephalopathyGrade encephalopathy)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Units units,  double? bilirubinSi,  double? inr,  double? pt,  double ptControl,  double? creatinineSi,  int? sodium,  double? albuminGl,  AscitesSeverity ascites,  EncephalopathyGrade encephalopathy)  $default,) {final _that = this;
 switch (_that) {
 case _PatientData():
-return $default(_that.units,_that.bilirubin,_that.inr,_that.pt,_that.ptControl,_that.creatinine,_that.sodium,_that.albumin,_that.ascites,_that.encephalopathy);case _:
+return $default(_that.units,_that.bilirubinSi,_that.inr,_that.pt,_that.ptControl,_that.creatinineSi,_that.sodium,_that.albuminGl,_that.ascites,_that.encephalopathy);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -205,10 +207,10 @@ return $default(_that.units,_that.bilirubin,_that.inr,_that.pt,_that.ptControl,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Units units,  double? bilirubin,  double? inr,  double? pt,  double ptControl,  double? creatinine,  int? sodium,  double? albumin,  AscitesSeverity ascites,  EncephalopathyGrade encephalopathy)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Units units,  double? bilirubinSi,  double? inr,  double? pt,  double ptControl,  double? creatinineSi,  int? sodium,  double? albuminGl,  AscitesSeverity ascites,  EncephalopathyGrade encephalopathy)?  $default,) {final _that = this;
 switch (_that) {
 case _PatientData() when $default != null:
-return $default(_that.units,_that.bilirubin,_that.inr,_that.pt,_that.ptControl,_that.creatinine,_that.sodium,_that.albumin,_that.ascites,_that.encephalopathy);case _:
+return $default(_that.units,_that.bilirubinSi,_that.inr,_that.pt,_that.ptControl,_that.creatinineSi,_that.sodium,_that.albuminGl,_that.ascites,_that.encephalopathy);case _:
   return null;
 
 }
@@ -219,20 +221,22 @@ return $default(_that.units,_that.bilirubin,_that.inr,_that.pt,_that.ptControl,_
 /// @nodoc
 @JsonSerializable()
 
-class _PatientData implements PatientData {
-  const _PatientData({this.units = Units.si, this.bilirubin, this.inr, this.pt, this.ptControl = 12.0, this.creatinine, this.sodium, this.albumin, this.ascites = AscitesSeverity.none, this.encephalopathy = EncephalopathyGrade.none});
+class _PatientData extends PatientData {
+  const _PatientData({this.units = Units.si, this.bilirubinSi, this.inr, this.pt, this.ptControl = 12.0, this.creatinineSi, this.sodium, this.albuminGl, this.ascites = AscitesSeverity.none, this.encephalopathy = EncephalopathyGrade.none}): super._();
   factory _PatientData.fromJson(Map<String, dynamic> json) => _$PatientDataFromJson(json);
 
 @override@JsonKey() final  Units units;
-@override final  double? bilirubin;
+@override final  double? bilirubinSi;
+// Stored in µmol/L
 @override final  double? inr;
 @override final  double? pt;
-// Prothrombin Time (Patient)
+// Seconds
 @override@JsonKey() final  double ptControl;
-// Prothrombin Time (Control)
-@override final  double? creatinine;
+@override final  double? creatinineSi;
+// Stored in µmol/L
 @override final  int? sodium;
-@override final  double? albumin;
+@override final  double? albuminGl;
+// Stored in g/L
 @override@JsonKey() final  AscitesSeverity ascites;
 @override@JsonKey() final  EncephalopathyGrade encephalopathy;
 
@@ -249,16 +253,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PatientData&&(identical(other.units, units) || other.units == units)&&(identical(other.bilirubin, bilirubin) || other.bilirubin == bilirubin)&&(identical(other.inr, inr) || other.inr == inr)&&(identical(other.pt, pt) || other.pt == pt)&&(identical(other.ptControl, ptControl) || other.ptControl == ptControl)&&(identical(other.creatinine, creatinine) || other.creatinine == creatinine)&&(identical(other.sodium, sodium) || other.sodium == sodium)&&(identical(other.albumin, albumin) || other.albumin == albumin)&&(identical(other.ascites, ascites) || other.ascites == ascites)&&(identical(other.encephalopathy, encephalopathy) || other.encephalopathy == encephalopathy));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PatientData&&(identical(other.units, units) || other.units == units)&&(identical(other.bilirubinSi, bilirubinSi) || other.bilirubinSi == bilirubinSi)&&(identical(other.inr, inr) || other.inr == inr)&&(identical(other.pt, pt) || other.pt == pt)&&(identical(other.ptControl, ptControl) || other.ptControl == ptControl)&&(identical(other.creatinineSi, creatinineSi) || other.creatinineSi == creatinineSi)&&(identical(other.sodium, sodium) || other.sodium == sodium)&&(identical(other.albuminGl, albuminGl) || other.albuminGl == albuminGl)&&(identical(other.ascites, ascites) || other.ascites == ascites)&&(identical(other.encephalopathy, encephalopathy) || other.encephalopathy == encephalopathy));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,units,bilirubin,inr,pt,ptControl,creatinine,sodium,albumin,ascites,encephalopathy);
+int get hashCode => Object.hash(runtimeType,units,bilirubinSi,inr,pt,ptControl,creatinineSi,sodium,albuminGl,ascites,encephalopathy);
 
 @override
 String toString() {
-  return 'PatientData(units: $units, bilirubin: $bilirubin, inr: $inr, pt: $pt, ptControl: $ptControl, creatinine: $creatinine, sodium: $sodium, albumin: $albumin, ascites: $ascites, encephalopathy: $encephalopathy)';
+  return 'PatientData(units: $units, bilirubinSi: $bilirubinSi, inr: $inr, pt: $pt, ptControl: $ptControl, creatinineSi: $creatinineSi, sodium: $sodium, albuminGl: $albuminGl, ascites: $ascites, encephalopathy: $encephalopathy)';
 }
 
 
@@ -269,7 +273,7 @@ abstract mixin class _$PatientDataCopyWith<$Res> implements $PatientDataCopyWith
   factory _$PatientDataCopyWith(_PatientData value, $Res Function(_PatientData) _then) = __$PatientDataCopyWithImpl;
 @override @useResult
 $Res call({
- Units units, double? bilirubin, double? inr, double? pt, double ptControl, double? creatinine, int? sodium, double? albumin, AscitesSeverity ascites, EncephalopathyGrade encephalopathy
+ Units units, double? bilirubinSi, double? inr, double? pt, double ptControl, double? creatinineSi, int? sodium, double? albuminGl, AscitesSeverity ascites, EncephalopathyGrade encephalopathy
 });
 
 
@@ -286,16 +290,16 @@ class __$PatientDataCopyWithImpl<$Res>
 
 /// Create a copy of PatientData
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? units = null,Object? bilirubin = freezed,Object? inr = freezed,Object? pt = freezed,Object? ptControl = null,Object? creatinine = freezed,Object? sodium = freezed,Object? albumin = freezed,Object? ascites = null,Object? encephalopathy = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? units = null,Object? bilirubinSi = freezed,Object? inr = freezed,Object? pt = freezed,Object? ptControl = null,Object? creatinineSi = freezed,Object? sodium = freezed,Object? albuminGl = freezed,Object? ascites = null,Object? encephalopathy = null,}) {
   return _then(_PatientData(
 units: null == units ? _self.units : units // ignore: cast_nullable_to_non_nullable
-as Units,bilirubin: freezed == bilirubin ? _self.bilirubin : bilirubin // ignore: cast_nullable_to_non_nullable
+as Units,bilirubinSi: freezed == bilirubinSi ? _self.bilirubinSi : bilirubinSi // ignore: cast_nullable_to_non_nullable
 as double?,inr: freezed == inr ? _self.inr : inr // ignore: cast_nullable_to_non_nullable
 as double?,pt: freezed == pt ? _self.pt : pt // ignore: cast_nullable_to_non_nullable
 as double?,ptControl: null == ptControl ? _self.ptControl : ptControl // ignore: cast_nullable_to_non_nullable
-as double,creatinine: freezed == creatinine ? _self.creatinine : creatinine // ignore: cast_nullable_to_non_nullable
+as double,creatinineSi: freezed == creatinineSi ? _self.creatinineSi : creatinineSi // ignore: cast_nullable_to_non_nullable
 as double?,sodium: freezed == sodium ? _self.sodium : sodium // ignore: cast_nullable_to_non_nullable
-as int?,albumin: freezed == albumin ? _self.albumin : albumin // ignore: cast_nullable_to_non_nullable
+as int?,albuminGl: freezed == albuminGl ? _self.albuminGl : albuminGl // ignore: cast_nullable_to_non_nullable
 as double?,ascites: null == ascites ? _self.ascites : ascites // ignore: cast_nullable_to_non_nullable
 as AscitesSeverity,encephalopathy: null == encephalopathy ? _self.encephalopathy : encephalopathy // ignore: cast_nullable_to_non_nullable
 as EncephalopathyGrade,

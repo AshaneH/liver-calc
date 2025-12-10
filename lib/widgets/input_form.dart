@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:liver_calc/models/patient_data.dart';
 import 'package:liver_calc/providers/patient_provider.dart';
+import 'package:liver_calc/widgets/common/app_text_field.dart';
+import 'package:liver_calc/widgets/common/section_card.dart';
 
 class InputForm extends ConsumerWidget {
   const InputForm({super.key});
@@ -16,7 +17,6 @@ class InputForm extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        // Unit Toggle - Prominent at the top
         // Unit Toggle & Prompt
         Padding(
           padding: const EdgeInsets.only(bottom: 8.0),
@@ -56,40 +56,35 @@ class InputForm extends ConsumerWidget {
         ),
 
         // Labs Section
-        _buildSectionCard(
-          context: context,
+        SectionCard(
           title: 'Labs',
           icon: Icons.biotech,
           child: LayoutBuilder(
             builder: (context, constraints) {
               final width = constraints.maxWidth;
 
-              // Safeguard
               if (width <= 0 || width.isInfinite)
                 return const SizedBox.shrink();
 
-              // Flexible Grid Logic
-              // Min item width ~150px.
               int cols = (width / 160).floor();
-              if (cols < 2) cols = 2; // Keep at least 2 cols usually
+              if (cols < 2) cols = 2;
 
               double spacing = 12.0;
-              // Formula: (TotalWidth - (SpacerCount * SpacerWidth)) / ColCount
               double itemWidth = (width - ((cols - 1) * spacing)) / cols;
 
               return Wrap(
                 spacing: spacing,
                 runSpacing: spacing,
                 children: [
-                  _buildInput(
+                  AppTextField(
                     label: 'Bilirubin',
                     suffix: isSi ? 'µmol/L' : 'mg/dL',
                     onChanged: notifier.updateBilirubin,
                     width: itemWidth,
-                    initialValue: patientData.bilirubin?.toString(),
+                    initialValue: patientData.bilirubinDisplay?.toString(),
                     isLast: false,
                   ),
-                  _buildInput(
+                  AppTextField(
                     label: 'INR',
                     suffix: '',
                     onChanged: notifier.updateInr,
@@ -97,15 +92,15 @@ class InputForm extends ConsumerWidget {
                     initialValue: patientData.inr?.toString(),
                     isLast: false,
                   ),
-                  _buildInput(
+                  AppTextField(
                     label: 'Albumin',
                     suffix: isSi ? 'g/L' : 'g/dL',
                     onChanged: notifier.updateAlbumin,
                     width: itemWidth,
-                    initialValue: patientData.albumin?.toString(),
+                    initialValue: patientData.albuminDisplay?.toString(),
                     isLast: false,
                   ),
-                  _buildInput(
+                  AppTextField(
                     label: 'Sodium (Na)',
                     suffix: 'mmol/L',
                     onChanged: notifier.updateSodium,
@@ -114,15 +109,15 @@ class InputForm extends ConsumerWidget {
                     initialValue: patientData.sodium?.toString(),
                     isLast: false,
                   ),
-                  _buildInput(
+                  AppTextField(
                     label: 'Creatinine',
                     suffix: isSi ? 'µmol/L' : 'mg/dL',
                     onChanged: notifier.updateCreatinine,
                     width: itemWidth,
-                    initialValue: patientData.creatinine?.toString(),
+                    initialValue: patientData.creatinineDisplay?.toString(),
                     isLast: false,
                   ),
-                  _buildInput(
+                  AppTextField(
                     label: 'PT',
                     suffix: 'sec',
                     onChanged: notifier.updatePt,
@@ -130,7 +125,7 @@ class InputForm extends ConsumerWidget {
                     initialValue: patientData.pt?.toString(),
                     isLast: false,
                   ),
-                  _buildInput(
+                  AppTextField(
                     label: 'Control PT',
                     suffix: 'sec',
                     onChanged: notifier.updatePtControl,
@@ -147,8 +142,7 @@ class InputForm extends ConsumerWidget {
         const SizedBox(height: 16),
 
         // Clinical Factors Section
-        _buildSectionCard(
-          context: context,
+        SectionCard(
           title: 'Clinical Factors',
           icon: Icons.person_outline,
           child: Column(
@@ -163,7 +157,7 @@ class InputForm extends ConsumerWidget {
                     label: Text(
                       severity.name[0].toUpperCase() +
                           severity.name.substring(1),
-                    ), // Capitalize
+                    ),
                     selected: patientData.ascites == severity,
                     onSelected: (selected) {
                       if (selected) notifier.updateAscites(severity);
@@ -219,45 +213,6 @@ class InputForm extends ConsumerWidget {
     );
   }
 
-  Widget _buildSectionCard({
-    required BuildContext context,
-    required String title,
-    required IconData icon,
-    required Widget child,
-  }) {
-    return Card(
-      elevation: 0, // Flat card logic for cleaner look, or slight elevation
-      color: Theme.of(context).colorScheme.surfaceVariant.withOpacity(0.3),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-        side: BorderSide(color: Theme.of(context).colorScheme.outlineVariant),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Icon(icon, color: Theme.of(context).colorScheme.primary),
-                const SizedBox(width: 8),
-                Text(
-                  title,
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            child,
-          ],
-        ),
-      ),
-    );
-  }
-
   Widget _buildLabel(BuildContext context, String text) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
@@ -266,41 +221,6 @@ class InputForm extends ConsumerWidget {
         style: Theme.of(
           context,
         ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
-      ),
-    );
-  }
-
-  Widget _buildInput({
-    required String label,
-    required String suffix,
-    required Function(String) onChanged,
-    required double width,
-    bool isInteger = false,
-    String? initialValue,
-    required bool isLast,
-  }) {
-    return SizedBox(
-      width: width,
-      key: ValueKey("${label}_$suffix"),
-      child: TextFormField(
-        initialValue: initialValue,
-        decoration: InputDecoration(
-          labelText: label,
-          suffixText: suffix,
-          filled: true,
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 12,
-            vertical: 12,
-          ),
-          isDense: true,
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-        ),
-        keyboardType: TextInputType.numberWithOptions(decimal: !isInteger),
-        textInputAction: isLast ? TextInputAction.done : TextInputAction.next,
-        inputFormatters: [
-          FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
-        ],
-        onChanged: onChanged,
       ),
     );
   }
