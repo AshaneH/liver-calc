@@ -12,6 +12,8 @@ enum AscitesSeverity { none, slight, moderate }
 
 enum EncephalopathyGrade { none, grade1_2, grade3_4 }
 
+enum Gender { male, female }
+
 @freezed
 abstract class PatientData with _$PatientData {
   const PatientData._(); // Added for custom getters
@@ -25,6 +27,8 @@ abstract class PatientData with _$PatientData {
     double? creatinineSi, // Stored in µmol/L
     int? sodium,
     double? albuminGl, // Stored in g/L
+    Gender? sex,
+    @Default(false) bool onDialysis,
     @Default(AscitesSeverity.none) AscitesSeverity ascites,
     @Default(EncephalopathyGrade.none) EncephalopathyGrade encephalopathy,
   }) = _PatientData;

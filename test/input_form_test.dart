@@ -9,7 +9,9 @@ void main() {
   ) async {
     await tester.pumpWidget(
       const ProviderScope(
-        child: MaterialApp(home: Scaffold(body: InputForm())),
+        child: MaterialApp(
+          home: Scaffold(body: SingleChildScrollView(child: InputForm())),
+        ),
       ),
     );
 

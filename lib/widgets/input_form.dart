@@ -149,6 +149,45 @@ class InputForm extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              _buildLabel(context, 'Sex (Required for MELD 3.0)'),
+              Wrap(
+                spacing: 8.0,
+                children: [
+                  ChoiceChip(
+                    label: const Text('Male'),
+                    selected: patientData.sex == Gender.male,
+                    onSelected: (selected) {
+                      if (selected) notifier.updateSex(Gender.male);
+                    },
+                  ),
+                  ChoiceChip(
+                    label: const Text('Female'),
+                    selected: patientData.sex == Gender.female,
+                    onSelected: (selected) {
+                      if (selected) notifier.updateSex(Gender.female);
+                    },
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: _buildLabel(
+                      context,
+                      'Dialysis History\n(Twice in past week or 24h CVVHD)',
+                    ),
+                  ),
+                  Switch(
+                    value: patientData.onDialysis,
+                    onChanged: notifier.updateDialysis,
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+
               _buildLabel(context, 'Ascites'),
               Wrap(
                 spacing: 8.0,

@@ -15,6 +15,8 @@ _PatientData _$PatientDataFromJson(Map<String, dynamic> json) => _PatientData(
   creatinineSi: (json['creatinineSi'] as num?)?.toDouble(),
   sodium: (json['sodium'] as num?)?.toInt(),
   albuminGl: (json['albuminGl'] as num?)?.toDouble(),
+  sex: $enumDecodeNullable(_$GenderEnumMap, json['sex']),
+  onDialysis: json['onDialysis'] as bool? ?? false,
   ascites:
       $enumDecodeNullable(_$AscitesSeverityEnumMap, json['ascites']) ??
       AscitesSeverity.none,
@@ -36,11 +38,15 @@ Map<String, dynamic> _$PatientDataToJson(_PatientData instance) =>
       'creatinineSi': instance.creatinineSi,
       'sodium': instance.sodium,
       'albuminGl': instance.albuminGl,
+      'sex': _$GenderEnumMap[instance.sex],
+      'onDialysis': instance.onDialysis,
       'ascites': _$AscitesSeverityEnumMap[instance.ascites]!,
       'encephalopathy': _$EncephalopathyGradeEnumMap[instance.encephalopathy]!,
     };
 
 const _$UnitsEnumMap = {Units.us: 'us', Units.si: 'si'};
+
+const _$GenderEnumMap = {Gender.male: 'male', Gender.female: 'female'};
 
 const _$AscitesSeverityEnumMap = {
   AscitesSeverity.none: 'none',

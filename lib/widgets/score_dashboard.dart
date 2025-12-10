@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:liver_calc/providers/patient_provider.dart';
+import 'package:liver_calc/logic/liver_calculator.dart';
 
 class ScoreDashboard extends ConsumerWidget {
   const ScoreDashboard({super.key});
@@ -8,11 +9,19 @@ class ScoreDashboard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // Watch all scores
-    final meld = ref.watch(meldScoreProvider);
-    final meldNa = ref.watch(meldNaScoreProvider);
+    final meldResult = ref.watch(meldResultProvider);
     final childPugh = ref.watch(childPughScoreProvider);
     final maddrey = ref.watch(maddreyScoreProvider);
     final albi = ref.watch(albiScoreProvider);
+
+    String meldSubtitle = '';
+    if (meldResult.type == MeldType.meld3) {
+      meldSubtitle = 'MELD 3.0';
+    } else if (meldResult.type == MeldType.meldNa) {
+      meldSubtitle = 'MELD-Na';
+    } else if (meldResult.type == MeldType.meld) {
+      meldSubtitle = 'Standard MELD';
+    }
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -41,11 +50,9 @@ class ScoreDashboard extends ConsumerWidget {
           _buildScoreCard(
             context,
             'MELD Score',
-            meld?.toStringAsFixed(1) ?? '--',
-            _getMeldColor(meld),
-            subtitle: meldNa != null
-                ? 'MELD-Na: ${meldNa.toStringAsFixed(1)}'
-                : null,
+            meldResult.score?.toStringAsFixed(1) ?? '--',
+            _getMeldColor(meldResult.score),
+            subtitle: meldResult.score != null ? meldSubtitle : null,
           ),
           _buildScoreCard(
             context,

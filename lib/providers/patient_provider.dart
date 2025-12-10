@@ -66,15 +66,23 @@ class PatientDataNotifier extends Notifier<PatientData> {
   void updateEncephalopathy(EncephalopathyGrade grade) {
     state = state.copyWith(encephalopathy: grade);
   }
+
+  void updateSex(Gender gender) {
+    state = state.copyWith(sex: gender);
+  }
+
+  void updateDialysis(bool onDialysis) {
+    state = state.copyWith(onDialysis: onDialysis);
+  }
 }
 
 final patientDataProvider = NotifierProvider<PatientDataNotifier, PatientData>(
   PatientDataNotifier.new,
 );
 
-final meldScoreProvider = Provider<double?>((ref) {
+final meldResultProvider = Provider<MeldResult>((ref) {
   final data = ref.watch(patientDataProvider);
-  return LiverCalculator.calculateMeld(data);
+  return LiverCalculator.calculateMeldCombined(data);
 });
 
 final meldNaScoreProvider = Provider<double?>((ref) {
