@@ -18,11 +18,12 @@ class LiverCalcApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF008080), // Teal
-          primary: const Color(0xFF008080),
-          secondary: const Color(0xFF6A5ACD), // Slate Blue-ish
-          surface: Colors.white,
-          background: const Color(0xFFF5F7FA), // Light greyish white
+          seedColor: const Color(0xFF152549), // Navy Blue (Background of SVG)
+          primary: const Color(0xFF152549), // Header Color
+          secondary: const Color(0xFF008080), // Teal (Accent/Labs)
+          tertiary: const Color(0xFF4DB6AC),
+          surface: Colors.grey[50],
+          background: Colors.white,
         ),
         textTheme: GoogleFonts.interTextTheme(),
         cardTheme: CardThemeData(

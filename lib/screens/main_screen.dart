@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:liver_calc/widgets/input_form.dart';
 import 'package:liver_calc/widgets/score_dashboard.dart';
 
+import 'package:flutter_svg/flutter_svg.dart';
+
 class MainScreen extends ConsumerWidget {
   const MainScreen({super.key});
 
@@ -12,32 +14,71 @@ class MainScreen extends ConsumerWidget {
       appBar: AppBar(
         title: const Text(
           'Liver Calc',
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
-        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        backgroundColor: const Color(0xFF152549), // Explicit header color
+        iconTheme: const IconThemeData(color: Colors.white),
         actions: [
-          // Unit toggle will go here
-          IconButton(onPressed: () {}, icon: const Icon(Icons.settings)),
+          // Logo as Settings Button
+          Padding(
+            padding: const EdgeInsets.only(right: 16.0),
+            child: InkWell(
+              onTap: () {
+                // Settings action (Unit toggle is already in inputs, maybe this is for future use?)
+                // For now just a placeholder or show a dialog/snack
+              },
+              borderRadius: BorderRadius.circular(12),
+              child: SvgPicture.asset(
+                'asset/logo_appicon_square.svg',
+                height: 44,
+              ),
+            ),
+          ),
         ],
       ),
       body: Container(
         color: Theme.of(context).colorScheme.surface,
-        child: Column(
+        child: Stack(
           children: [
-            Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  children: [
-                    const InputForm(),
-                    const SizedBox(
-                      height: 100,
-                    ), // Space for bottom sheet or scroll
-                  ],
+            // Artistic "Knockout" Watermark
+            Positioned(
+              bottom: -100,
+              right: -50,
+              child: Opacity(
+                opacity: 0.05, // Very subtle
+                child: Transform.rotate(
+                  angle: -0.2, // Jaunty angle
+                  child: SvgPicture.asset(
+                    'asset/logo_icon.svg',
+                    height: 400, // Large
+                    colorFilter: const ColorFilter.mode(
+                      Colors.black,
+                      BlendMode.srcIn,
+                    ), // Greyscale
+                  ),
                 ),
               ),
             ),
-            const ScoreDashboard(),
+
+            // Main Content
+            Column(
+              children: [
+                const ScoreDashboard(),
+                Expanded(
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      children: const [
+                        InputForm(),
+                        SizedBox(
+                          height: 100,
+                        ), // Space for scrolling past bottom
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
       ),
