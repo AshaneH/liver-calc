@@ -60,11 +60,11 @@ flutter test
 
 ---
 
-## 📦 precise setup
+## 📦 Setup
 
 1.  **Clone the repository**:
     ```bash
-    git clone https://github.com/Start-App-Dev/liver-calc.git
+    git clone https://github.com/AshaneH/liver-calc.git
     cd liver-calc
     ```
 
