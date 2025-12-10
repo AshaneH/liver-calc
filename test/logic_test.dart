@@ -26,11 +26,10 @@ void main() {
       expect(result.score, closeTo(21.5, 0.5));
     });
 
-    test('Dialysis Override (Sets Creatinine to 4.0)', () {
-      // Dialysis = True -> Creat 4.0
-      // Female, Bili 1.0, Na 137 (Term 0), INR 1.0, Creat 0.5 (Should be 4.0), Alb 3.5 (Term 0)
-      // Eq: 1.33(1) + 4.56(0) + 0 + 0 + 9.09(0) + 11.14*ln(4.0) + 0 + 0 + 6
-      // = 7.33 + 11.14(1.386) = 7.33 + 15.44 = 22.77 -> 22.8
+    test('Dialysis Override (Sets Creatinine to 3.0 for MELD 3.0)', () {
+      // Dialysis = True -> Creat 3.0 (MELD 3.0 Cap)
+      // Female, Bili 1.0, Na 137, INR 1.0, Creat 3.0, Alb 3.5
+      // Score ~ 20.0
 
       const data = PatientData(
         units: Units.us,
@@ -44,7 +43,7 @@ void main() {
       );
 
       final result = LiverCalculator.calculateMeldCombined(data);
-      expect(result.score, closeTo(22.8, 0.5));
+      expect(result.score, closeTo(20.0, 0.5));
     });
 
     test('MELD 3.0 Creatinine Cap (3.0 if NOT on Dialysis)', () {
