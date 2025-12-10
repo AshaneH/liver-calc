@@ -1,10 +1,12 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:state_notifier/state_notifier.dart';
 import 'package:liver_calc/models/patient_data.dart';
 import 'package:liver_calc/logic/liver_calculator.dart';
 
-class PatientDataNotifier extends StateNotifier<PatientData> {
-  PatientDataNotifier() : super(const PatientData());
+class PatientDataNotifier extends Notifier<PatientData> {
+  @override
+  PatientData build() {
+    return const PatientData();
+  }
 
   void updateUnits(Units newUnits) {
     if (state.units == newUnits) return;
@@ -85,10 +87,9 @@ class PatientDataNotifier extends StateNotifier<PatientData> {
   }
 }
 
-final patientDataProvider =
-    StateNotifierProvider<PatientDataNotifier, PatientData>((ref) {
-      return PatientDataNotifier();
-    });
+final patientDataProvider = NotifierProvider<PatientDataNotifier, PatientData>(
+  PatientDataNotifier.new,
+);
 
 final meldScoreProvider = Provider<double?>((ref) {
   final data = ref.watch(patientDataProvider);

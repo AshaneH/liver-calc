@@ -25,7 +25,7 @@ class LiverCalcApp extends StatelessWidget {
           background: const Color(0xFFF5F7FA), // Light greyish white
         ),
         textTheme: GoogleFonts.interTextTheme(),
-        cardTheme: CardTheme(
+        cardTheme: CardThemeData(
           elevation: 2,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
