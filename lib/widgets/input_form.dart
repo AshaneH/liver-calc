@@ -17,29 +17,41 @@ class InputForm extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         // Unit Toggle - Prominent at the top
-        Align(
-          alignment: Alignment.topRight,
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 8.0),
-            child: Wrap(
-              spacing: 8,
-              children: [
-                ChoiceChip(
-                  label: const Text('SI'),
-                  selected: isSi,
-                  onSelected: (selected) {
-                    if (selected) notifier.updateUnits(Units.si);
-                  },
+        // Unit Toggle & Prompt
+        Padding(
+          padding: const EdgeInsets.only(bottom: 8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Enter Patient Data',
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.primary,
                 ),
-                ChoiceChip(
-                  label: const Text('US'),
-                  selected: !isSi,
-                  onSelected: (selected) {
-                    if (selected) notifier.updateUnits(Units.us);
-                  },
-                ),
-              ],
-            ),
+              ),
+              Wrap(
+                spacing: 8,
+                children: [
+                  ChoiceChip(
+                    label: const Text('SI'),
+                    selected: isSi,
+                    showCheckmark: false,
+                    onSelected: (selected) {
+                      if (selected) notifier.updateUnits(Units.si);
+                    },
+                  ),
+                  ChoiceChip(
+                    label: const Text('US'),
+                    selected: !isSi,
+                    showCheckmark: false,
+                    onSelected: (selected) {
+                      if (selected) notifier.updateUnits(Units.us);
+                    },
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
 
