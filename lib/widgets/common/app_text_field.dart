@@ -9,6 +9,7 @@ class AppTextField extends StatelessWidget {
   final bool isInteger;
   final String? initialValue;
   final bool isLast;
+  final FocusNode? focusNode;
 
   const AppTextField({
     super.key,
@@ -19,6 +20,7 @@ class AppTextField extends StatelessWidget {
     this.isInteger = false,
     this.initialValue,
     required this.isLast,
+    this.focusNode,
   });
 
   @override
@@ -28,6 +30,7 @@ class AppTextField extends StatelessWidget {
       child: TextFormField(
         // Key is vital for proper flutter element reuse when units change!
         key: ValueKey("${label}_$suffix"),
+        focusNode: focusNode,
         initialValue: initialValue,
         decoration: InputDecoration(
           labelText: label,
