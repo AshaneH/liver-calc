@@ -77,11 +77,12 @@ class LiverCalculator {
     if (alb < 1.5) alb = 1.5;
     if (alb > 3.5) alb = 3.5;
 
-    // Creatinine Dialysis Rule
+    // Creatinine Logic for MELD 3.0
+    // Dialysis normally sets Creat to 4.0, BUT MELD 3.0 Caps Creatinine at 3.0.
+    // So for MELD 3.0, if Dialysis is true, it is effectively 3.0.
     if (dialysis) {
-      creat = 4.0;
+      creat = 3.0;
     } else {
-      // MELD 3.0 Cap for Creatinine is 3.0
       if (creat > 3.0) creat = 3.0;
     }
 
@@ -104,10 +105,8 @@ class LiverCalculator {
         1.83 * (3.5 - alb) * log(creat) +
         6;
 
-    return MeldResult(
-      score: double.parse(score.toStringAsFixed(1)),
-      type: MeldType.meld3,
-    );
+    // Rounding: "The MELD 3.0 score is rounded to the nearest integer."
+    return MeldResult(score: score.roundToDouble(), type: MeldType.meld3);
   }
 
   static MeldResult _calculateMeldNaResult(PatientData data) {

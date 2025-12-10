@@ -102,5 +102,24 @@ void main() {
       expect(result.type, MeldType.meld);
       expect(result.score, closeTo(15.3, 0.5));
     });
+
+    test('MELD-Na Threshold: If MELD <= 11, do not use Na', () {
+      // Bili 1.0, INR 1.0, Creat 1.0 -> MELD = 6.4 (Standard lower bound 6)
+      // Sodium = 120 (Very low, would normally trigger Na boost)
+      // Since MELD (6.4) <= 11, should return Standard MELD (6.4) and type MeldType.meld
+
+      const data = PatientData(
+        units: Units.us,
+        bilirubinSi: 1.0 * 17.1,
+        inr: 1.0,
+        creatinineSi: 1.0 * 88.4,
+        sodium: 120, // Should be ignored
+        sex: null, // Force MELD-Na check path
+      );
+
+      final result = LiverCalculator.calculateMeldCombined(data);
+      expect(result.type, MeldType.meld); // Not MeldType.meldNa
+      expect(result.score, closeTo(6.4, 0.1));
+    });
   });
 }

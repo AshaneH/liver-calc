@@ -34,17 +34,21 @@ class InputForm extends ConsumerWidget {
                 spacing: 8,
                 children: [
                   ChoiceChip(
-                    label: const Text('SI'),
+                    label: const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20.0),
+                      child: Text('SI'),
+                    ),
                     selected: isSi,
-                    showCheckmark: false,
                     onSelected: (selected) {
                       if (selected) notifier.updateUnits(Units.si);
                     },
                   ),
                   ChoiceChip(
-                    label: const Text('US'),
+                    label: const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20.0),
+                      child: Text('US'),
+                    ),
                     selected: !isSi,
-                    showCheckmark: false,
                     onSelected: (selected) {
                       if (selected) notifier.updateUnits(Units.us);
                     },
